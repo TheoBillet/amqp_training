@@ -15,14 +15,16 @@ public class Launcher {
 
             Scanner scan = new Scanner(System.in);
             System.out.println("Input a message, we will sent it for you (q for quit)");
-            String message;
-            do {
-                message = scan.nextLine();
-                if (!"q".equals(message)) {
+            Boolean loop = true;
+            while(loop) {
+                String message = scan.nextLine();
+                if ("q".equals(message)) {
+                    loop = false;
+                } else {
                     rabbitTemplate.convertAndSend("", "chat_messages", message);
                     System.out.println("Message sent. Input a message, we will send it for you");
                 }
-            } while (!"q".equals(message));
+            }
             System.out.println("Bye");
         } finally {
             context.stop();
